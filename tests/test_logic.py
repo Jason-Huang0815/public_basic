@@ -1,8 +1,7 @@
 # tests/test_logic.py
 
-from datetime import datetime
-
 import pytest
+from freezegun import freeze_time
 
 from myproject.core.logic import (
     calculate_discount,
@@ -41,16 +40,8 @@ def test_get_db_url(monkeypatch):
     assert get_db_url() == "postgresql://prod-db:5432"
 
 
+@freeze_time("2021-06-01")
 def test_is_vip_active(monkeypatch):
     expire_date = "2023-12-31"
 
-    # you do not know the system time, so cannot assert as just False
-    # we should freeze time with monkeypatch
-    class FakeDateTime(datetime):
-        @classmethod
-        def now(cls, tz=None):
-            # forever return 2023-6-1
-            return cls(2023, 6, 1)
-
-    monkeypatch.setattr("myproject.core.logic.datetime", FakeDateTime)
     assert is_vip_active(expire_date) is True
