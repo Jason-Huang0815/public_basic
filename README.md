@@ -32,6 +32,7 @@ myproject/
 ├── .venv/
 ├── docs/
 ├── src/
+│   ├── public_basic.egg-info/
 │   └── myproject/
 │       ├── __init__.py
 │       ├── main.py
@@ -40,10 +41,14 @@ myproject/
 │       │   └── logic.py
 │       └── utils/
 │           ├── __init__.py
+│           ├── logger.py
 │           └── helpers.py
 ├── tests/
 │   ├── __init__.py
+│   ├── conftest.py
 │   └── test_logic.py
+├── Dockerfile
+├── .dockerignore
 ├── .gitignore
 ├── README.md
 ├── pyproject.toml
@@ -60,18 +65,18 @@ myproject/
 
 - 依赖管理：装 uv（比 poetry 快，别纠结），建 pyproject.toml，虚拟环境跑起来
 
-- 格式化 + Lint：ruff（格式+lint 一把梭）+ black，配 pre-commit hook
+- 格式化 + Lint：ruff（格式+lint 一把梭），配 pre-commit hook
 
 - Git 规范：分支策略、commit message 别写"改了点东西"
 
-验收标准：你那个旧脚本，现在能 uv sync 装依赖、ruff check 零报错、目录结构能让别人一眼看懂哪个文件干啥。
+验收标准：能 uv sync 装依赖、ruff check 零报错、目录结构能让别人一眼看懂哪个文件干啥。
 
 ---
 **阶段二：保命层（2-3 周）—— 让代码"改不坏"**
 
 - 目标：敢改代码，因为知道改了不会炸。
 
-- 类型注解：全项目标 typing，mypy 或 pyright 跑通
+- 类型注解：全项目标 pyright 跑通
 
 - 异常处理：干掉所有裸 except，精确捕获
 
@@ -79,7 +84,7 @@ myproject/
 
 - pytest 入门：先测 core/ 里的纯函数，fixture 管测试数据
 
-验收标准：随便改一个 core/ 函数，mypy 能告诉你哪里调用方要跟着改，pytest 能告诉你逻辑有没有改坏。
+验收标准：随便改一个 core/ 函数，pytest 能告诉你逻辑有没有改坏。
 
 ---
 **阶段三：隔离层（1-2 周）—— 测试不碰真实世界**
